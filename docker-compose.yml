@@ -1,4 +1,11 @@
-# Single file contain full of services
+###################################################
+###################################################
+# 
+# Single file contain FULL of services
+# Run only this file if you don't want to use separate services
+# 
+###################################################
+###################################################
 
 version: "3.8"
 
@@ -112,11 +119,15 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge=true"
       - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web"
+      ########################################################################
       # for staging environment
       # - "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       # for production environment
       # - "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+      ########################################################################
+      # change `email@example.com` to your email
       - "--certificatesresolvers.myhttpchallenge.acme.email=email@example.com"
+      ########################################################################
       - "--certificatesresolvers.myhttpchallenge.acme.storage=/letsencrypt/acme.json"
       - "--entrypoints.websecured.address=:443"
       - "--entrypoints.web.address=:80"

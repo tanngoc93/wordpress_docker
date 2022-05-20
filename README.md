@@ -1,3 +1,5 @@
+## Please reading the note in each file
+
 ## Install Docker & Docker Compose first
 
 #### Docker
@@ -25,13 +27,21 @@ docker network create traefik-public
 #### Build
 
 ```html
-docker-compose build OR docker-compose build -f custom-compose-filename.yml
+docker-compose build OR docker-compose build -f custom-filename.yml
 ```
 
 #### Run compose
 
 ```html
+Note: If you want to run separate files, the flow will be : db => proxy+wordpress => phpmyadmin[optional]
+```
+
+```html
 docker-compose up OR docker-compose up -d
+```
+
+```html
+docker-compose -f custom-filename.yml up OR docker-compose custom-filename.yml up -d
 ```
 
 

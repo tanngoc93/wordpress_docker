@@ -1,3 +1,11 @@
+###################################################
+###################################################
+# 
+# Traefik Proxy & Wordpress services only
+# 
+###################################################
+###################################################
+
 version: "3.8"
 
 networks:
@@ -39,9 +47,6 @@ services:
       - "traefik.http.routers.wordpress-secured.rule=Host(`domain.com`, `www.domain2.com`)"
       - "traefik.http.routers.wordpress-secured.entrypoints=websecured"
       - "traefik.http.routers.wordpress-secured.tls.certresolver=myhttpchallenge"
-    depends_on:
-      - db
-      - redis
     networks:
       - bridge-network
       - traefik-public
@@ -58,11 +63,15 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge=true"
       - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web"
+      ########################################################################
       # for staging environment
       # - "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       # for production environment
       # - "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+      ########################################################################
+      # change `email@example.com` to your email
       - "--certificatesresolvers.myhttpchallenge.acme.email=email@example.com"
+      ########################################################################
       - "--certificatesresolvers.myhttpchallenge.acme.storage=/letsencrypt/acme.json"
       - "--entrypoints.websecured.address=:443"
       - "--entrypoints.web.address=:80"
