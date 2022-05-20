@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      - PMA_ARBITRARY=1
+      - UPLOAD_LIMIT=128M
+    networks:
+      - bridge-network
+
+  db:
+    image: mariadb:10.8.2-rc-focal
+    restart: always
+    environment:
+      MARIADB_DATABASE: wordpress_db
+      MARIADB_ROOT_PASSWORD: WBjAlX3veYGtSYg5
+    ports:
+      - 3306
+    volumes:
+      - mysql:/var/lib/mysql
+    networks:
+      - bridge-network
+
+  redis:
+    image: redis:6.2.5
+    restart: always
+    command: redis-server
+    networks:
+      - bridge-network
+
+  wordpress:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./.dockerdev/Dockerfile
+    working_dir: /var/www/html
+    environment:
+      WORDPRESS_REDIS_HOST: redis
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: WBjAlX3veYGtSYg5
+      WORDPRESS_DB_NAME: wordpress_db
+      WORDPRESS_TABLE_PREFIX: SERVMASK_PREFIX_
+    volumes:
+      - ./wp-content:/var/www/html/wp-content:rw
+      - ./wp-config/wp-config.php:/var/www/html/wp-config.php
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+      - redis
+    networks:
+      - bridge-network
+
+networks:
+  bridge-network:
+    driver: bridge
+
+volumes:
+  mysql:
+  wordpress:
