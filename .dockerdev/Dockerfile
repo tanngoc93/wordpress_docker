@@ -1,4 +1,6 @@
-FROM wordpress:php8.1-apache
+ARG WORDPRESS_VERSION
+
+FROM wordpress:${WORDPRESS_VERSION}
 
 ##
 ## install redis & enable redis plugin

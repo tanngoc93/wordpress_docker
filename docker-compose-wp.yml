@@ -20,6 +20,8 @@ services:
     build:
       context: .
       dockerfile: ./.dockerdev/Dockerfile
+      args:
+        WORDPRESS_VERSION: 'php8.1-apache'
     working_dir: /var/www/html
     environment:
       WORDPRESS_REDIS_HOST: redis
@@ -52,7 +54,7 @@ services:
       - traefik-public
 
   proxy:  
-    image: traefik:v2.4.9
+    image: traefik:v2.6.6
     command:
       - "--log.level=DEBUG"
       - "--api.insecure=true"
