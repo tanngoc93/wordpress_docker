@@ -115,3 +115,9 @@ docker system prune -f
 ```html
 https://gist.github.com/eloypnd/5efc3b590e7c738630fdcf0c10b68072
 ```
+
+#### If you got error : don't have permission to edit files / folders
+
+```html
+sudo chown -R $USER:$USER file-name OR sudo chown -R $USER:$USER folder-name
+```
