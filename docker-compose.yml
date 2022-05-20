@@ -14,7 +14,7 @@ services:
       - PMA_ARBITRARY=1
       - UPLOAD_LIMIT=128M
     ports:
-      - 8082:80
+      - 8082:80 # for local test only
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-public"
@@ -32,6 +32,7 @@ services:
       - "traefik.http.routers.phpmyadmin-secured.tls.certresolver=myhttpchallenge"
     networks:
       - bridge-network
+      - traefik-public
 
   db:
     image: mariadb:10.8.2-rc-focal
@@ -45,6 +46,7 @@ services:
       - mysql:/var/lib/mysql
     networks:
       - bridge-network
+      - traefik-public
 
   redis:
     image: redis:6.2.5
@@ -52,6 +54,7 @@ services:
     command: redis-server
     networks:
       - bridge-network
+      - traefik-public
 
   wordpress:
     restart: always
@@ -70,7 +73,7 @@ services:
       - ./wp-content:/var/www/html/wp-content:rw
       - ./wp-config/wp-config.php:/var/www/html/wp-config.php
     ports:
-      - 8081:80 # for local only
+      - 8081:80 # for local test only
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-public"
@@ -89,6 +92,7 @@ services:
       - redis
     networks:
       - bridge-network
+      - traefik-public
 
   proxy:  
     image: traefik:v2.4.9
@@ -109,7 +113,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
+      - "8080:8080" # for local test only
     volumes:
       # So that Traefik can listen to the Docker events
       - ./traefik/letsencrypt:/letsencrypt
@@ -121,7 +125,7 @@ services:
       - "traefik.http.routers.traefik-http.rule=HostRegexp(`dashboard.alllovehere.com`, `{any:.*}`)"
       - "traefik.http.routers.traefik-http.entrypoints=web"
       #
-      - "traefik.http.services.traefik-service.loadbalancer.server.port=80"
+      - "traefik.http.services.traefik-service.loadbalancer.server.port=8080"
       # 
       - "traefik.http.routers.traefik-secured.rule=Host(`dashboard.alllovehere.com`, `{any:.*}`)"
       - "traefik.http.routers.traefik-secured.entrypoints=websecured"
