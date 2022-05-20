@@ -1,0 +1,31 @@
+version: "3.8"
+
+networks:
+  traefik-public:
+    external: true
+
+services:
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    environment:
+      - PMA_ARBITRARY=1
+      - UPLOAD_LIMIT=128M
+    ports:
+      - 8082:80 # for local test only
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      # 
+      - "traefik.http.routers.phpmyadmin-http.rule=Host(`phpadmin.domain.com`)"
+      - "traefik.http.routers.phpmyadmin-http.entrypoints=web"
+      - "traefik.http.routers.phpmyadmin-http.middlewares=redirect-to-https@docker"
+      #
+      - "traefik.http.services.phpmyadmin-service.loadbalancer.server.port=80"
+      # 
+      - "traefik.http.routers.phpmyadmin-secured.rule=Host(`phpadmin.domain.com`)"
+      - "traefik.http.routers.phpmyadmin-secured.entrypoints=websecured"
+      - "traefik.http.routers.phpmyadmin-secured.tls.certresolver=myhttpchallenge"
+    networks:
+      - traefik-public

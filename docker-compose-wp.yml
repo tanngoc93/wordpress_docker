@@ -1,5 +1,3 @@
-# Single file contain full of services
-
 version: "3.8"
 
 networks:
@@ -9,58 +7,6 @@ networks:
     driver: bridge
 
 services:
-  redis:
-    image: redis:6.2.5
-    restart: always
-    command: redis-server
-    networks:
-      - bridge-network
-      - traefik-public
-    labels:
-        - "traefik.enable=true"
-
-  db:
-    image: mariadb:10.8.2-rc-focal
-    restart: always
-    environment:
-      MARIADB_DATABASE: wordpress_db
-      MARIADB_ROOT_PASSWORD: WBjAlX3veYGtSYg5
-    ports:
-      - 3306
-    volumes:
-      - mysql:/var/lib/mysql
-    networks:
-      - bridge-network
-      - traefik-public
-    labels:
-        - "traefik.enable=true"
-
-  phpmyadmin:
-    image: phpmyadmin
-    restart: always
-    environment:
-      - PMA_ARBITRARY=1
-      - UPLOAD_LIMIT=128M
-    ports:
-      - 8082:80 # for local test only
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=traefik-public"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      # 
-      - "traefik.http.routers.phpmyadmin-http.rule=Host(`phpadmin.domain.com`)"
-      - "traefik.http.routers.phpmyadmin-http.entrypoints=web"
-      - "traefik.http.routers.phpmyadmin-http.middlewares=redirect-to-https@docker"
-      #
-      - "traefik.http.services.phpmyadmin-service.loadbalancer.server.port=80"
-      # 
-      - "traefik.http.routers.phpmyadmin-secured.rule=Host(`phpadmin.domain.com`)"
-      - "traefik.http.routers.phpmyadmin-secured.entrypoints=websecured"
-      - "traefik.http.routers.phpmyadmin-secured.tls.certresolver=myhttpchallenge"
-    networks:
-      - bridge-network
-      - traefik-public
-
   wordpress:
     restart: always
     build:

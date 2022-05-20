@@ -1,0 +1,37 @@
+version: "3.8"
+
+networks:
+  traefik-public:
+    external: true
+  db-network:
+    driver: bridge
+
+services:
+  redis:
+    image: redis:6.2.5
+    restart: always
+    command: redis-server
+    networks:
+      - db-network
+      - traefik-public
+    labels:
+        - "traefik.enable=true"
+
+  db:
+    image: mariadb:10.8.2-rc-focal
+    restart: always
+    environment:
+      MARIADB_DATABASE: wordpress_db
+      MARIADB_ROOT_PASSWORD: WBjAlX3veYGtSYg5
+    ports:
+      - 3306
+    volumes:
+      - mysql:/var/lib/mysql
+    networks:
+      - db-network
+      - traefik-public
+    labels:
+        - "traefik.enable=true"
+
+volumes:
+  mysql:
