@@ -28,7 +28,6 @@ services:
       # 
       - "traefik.http.routers.phpmyadmin-secured.rule=Host(`oms2.alllovehere.com`, `{any:.*}`)"
       - "traefik.http.routers.phpmyadmin-secured.entrypoints=websecured"
-      - "traefik.http.routers.phpmyadmin-secured.tls=true"
       - "traefik.http.routers.phpmyadmin-secured.tls.certresolver=myhttpchallenge"
     networks:
       - bridge-network
@@ -87,7 +86,6 @@ services:
       # 
       - "traefik.http.routers.wordpress-secured.rule=Host(`oms1.alllovehere.com`, `{any:.*}`)"
       - "traefik.http.routers.wordpress-secured.entrypoints=websecured"
-      - "traefik.http.routers.wordpress-secured.tls=true"
       - "traefik.http.routers.wordpress-secured.tls.certresolver=myhttpchallenge"
     depends_on:
       - db
@@ -125,7 +123,7 @@ services:
       - "traefik.docker.network=traefik-public"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       # 
-      - "traefik.http.routers.traefik-http.rule=HostRegexp(`dashboard.alllovehere.com`)"
+      - "traefik.http.routers.traefik-http.rule=Host(`dashboard.alllovehere.com`)"
       - "traefik.http.routers.traefik-http.entrypoints=web"
       - "traefik.http.routers.traefik-http.middlewares=redirect-to-https@docker"
       #
@@ -133,7 +131,6 @@ services:
       # 
       - "traefik.http.routers.traefik-secured.rule=Host(`dashboard.alllovehere.com`)"
       - "traefik.http.routers.traefik-secured.entrypoints=websecured"
-      - "traefik.http.routers.traefik-secured.tls=true"
       - "traefik.http.routers.traefik-secured.tls.certresolver=myhttpchallenge"
     networks: 
       - bridge-network
