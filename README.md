@@ -18,7 +18,7 @@ https://docs.docker.com/compose/install/
 
 ## Development/Deploy with Docker Compose
 
-#### Must be changed the access permissions of file `acme.json`
+#### [Production only] Must be changed the access permissions of file `acme.json`
 
 ```html
 chmod 600 acme.json
