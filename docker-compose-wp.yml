@@ -40,7 +40,7 @@ services:
       - "traefik.docker.network=traefik-public"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       # 
-      - "traefik.http.routers.wordpress-http.rule=HostRegexp(`domain.com`, `www.domain2.com`)"
+      - "traefik.http.routers.wordpress-http.rule=Host(`domain.com`, `www.domain2.com`)"
       - "traefik.http.routers.wordpress-http.entrypoints=web"
       - "traefik.http.routers.wordpress-http.middlewares=redirect-to-https@docker"
       #
