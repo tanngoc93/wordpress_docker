@@ -24,7 +24,7 @@ services:
       - bridge-network
       - traefik-public
     labels:
-        - "traefik.enable=true"
+        - "traefik.enable=false"
 
   db:
     image: mariadb:10.8.2-rc-focal
@@ -40,7 +40,7 @@ services:
       - bridge-network
       - traefik-public
     labels:
-        - "traefik.enable=true"
+        - "traefik.enable=false"
 
   phpmyadmin:
     image: phpmyadmin
