@@ -38,14 +38,23 @@ if (!function_exists('getenv_docker')) {
 	}
 }
 
-#########
-#########
+########################################################################
+## Redis Object Cache | https://wordpress.org/plugins/redis-cache/
+########################################################################
 define( 'WP_REDIS_HOST', getenv_docker('WORDPRESS_REDIS_HOST', 'redis') );
 define( 'WP_REDIS_PORT', getenv_docker('WORDPRESS_REDIS_PORT', 6379) );
 // change the database for each site to avoid cache collisions
 define( 'WP_REDIS_DATABASE', getenv_docker('WORDPRESS_REDIS_DATABASE', 0) );
-#########
-#########
+########################################################################
+########################################################################
+
+########################################################################
+########################################################################
+// define( 'RELOCATE',true );
+// define( 'WP_HOME', 'http://example.com/' );
+// define( 'WP_SITEURL', 'http://example.com/' );
+########################################################################
+########################################################################
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */

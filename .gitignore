@@ -1,5 +1,5 @@
 !/wp-content/.keep
-!/traefil/log/.keep
+!/traefik/log/.keep
 
 /wp-content/*
 /traefil/log/*
