@@ -16,7 +16,7 @@ https://docs.docker.com/compose/install/
 
 
 
-## Development/Deploy with Docker Compose
+## Development/Deployment with Docker Compose
 
 #### [Production only] Must be changed the access permissions of file `acme.json`
 
@@ -50,11 +50,7 @@ docker-compose up OR docker-compose up -d
 docker-compose -f custom-filename.yml up OR docker-compose custom-filename.yml up -d
 ```
 
-
-
-
-
-## Local access
+#### Local access
 
 ```html
 Traefik : http://localhost:8080
@@ -67,7 +63,6 @@ Wordpress : http://localhost:8081
 ```html
 phpMyAdmin : http://localhost:8082
 ```
-
 
 
 
