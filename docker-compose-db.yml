@@ -16,6 +16,8 @@ services:
   redis:
     image: redis:6.2.5
     restart: always
+    ports:
+      - 6379
     command: redis-server
     networks:
       - traefik-public
