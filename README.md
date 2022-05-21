@@ -54,6 +54,24 @@ docker-compose -f custom-filename.yml up OR docker-compose custom-filename.yml u
 
 
 
+## Local access
+
+```html
+Traefik : http://localhost:8080
+```
+
+```html
+Wordpress : http://localhost:8081
+```
+
+```html
+phpMyAdmin : http://localhost:8082
+```
+
+
+
+
+
 ## Others
 
 #### Check list networks
