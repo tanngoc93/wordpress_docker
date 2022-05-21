@@ -22,7 +22,7 @@ services:
     networks:
       - traefik-public
     labels:
-        - "traefik.enable=false"
+      - "traefik.enable=false"
 
   db:
     image: mariadb:10.8.2-rc-focal
@@ -39,7 +39,7 @@ services:
     networks:
       - traefik-public
     labels:
-        - "traefik.enable=false"
+      - "traefik.enable=false"
 
 volumes:
   mysql:
