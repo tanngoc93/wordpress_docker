@@ -2,4 +2,4 @@
 !/traefik/log/.keep
 
 /wp-content/*
-/traefil/log/*
+/traefik/log/*

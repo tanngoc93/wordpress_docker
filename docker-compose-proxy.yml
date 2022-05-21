@@ -44,7 +44,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080" # for local test only
+      - "8080:8080" # for local test only, delete it on production
     volumes:
       # So that Traefik can listen to the Docker events
       - ./traefik/log:/var/log/traefik

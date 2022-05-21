@@ -20,7 +20,7 @@ services:
       - PMA_ARBITRARY=1
       - UPLOAD_LIMIT=128M
     ports:
-      - 8082:80 # for local test only
+      - 8082:80 # for local test only, delete it on production
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-public"
