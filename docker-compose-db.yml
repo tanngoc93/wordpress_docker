@@ -11,8 +11,6 @@ version: "3.8"
 networks:
   traefik-public:
     external: true
-  db-network:
-    driver: bridge
 
 services:
   redis:
@@ -20,7 +18,6 @@ services:
     restart: always
     command: redis-server
     networks:
-      - db-network
       - traefik-public
     labels:
         - "traefik.enable=false"
@@ -29,14 +26,15 @@ services:
     image: mariadb:10.8.2-rc-focal
     restart: always
     environment:
-      MARIADB_DATABASE: wordpress_db
+      MARIADB_USER: wordpress_db
+      MARIADB_PASSWORD: WBjAlX3veYGtSYg6
       MARIADB_ROOT_PASSWORD: WBjAlX3veYGtSYg5
+      MARIADB_DATABASE: wordpress_db
     ports:
       - 3306
     volumes:
       - mysql:/var/lib/mysql
     networks:
-      - db-network
       - traefik-public
     labels:
         - "traefik.enable=false"

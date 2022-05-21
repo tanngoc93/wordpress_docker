@@ -1,0 +1,63 @@
+###################################################
+###################################################
+# 
+# Traefik Proxy & Wordpress services only
+# 
+###################################################
+###################################################
+
+version: "3.8"
+
+networks:
+  traefik-public:
+    external: true
+
+services:
+  proxy:  
+    image: traefik:v2.6.6
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.watch=true"
+      - "--providers.docker.network=traefik-public"
+      - "--providers.docker.exposedbydefault=false"
+      - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge=true"
+      - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web"
+      ########################################################################
+      # for staging environment & uncomment
+      # - "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      # for production environment & uncomment
+      # - "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+      ########################################################################
+      # change `email@example.com` to your email & uncomment
+      # - "--certificatesresolvers.myhttpchallenge.acme.email=email@example.com"
+      ########################################################################
+      - "--certificatesresolvers.myhttpchallenge.acme.storage=/letsencrypt/acme.json"
+      - "--entrypoints.websecured.address=:443"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080" # for local test only
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - ./traefik/letsencrypt:/letsencrypt
+      -  /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      # 
+      - "traefik.http.routers.traefik-http.rule=Host(`dashboard.${DOMAIN}`)"
+      - "traefik.http.routers.traefik-http.entrypoints=web"
+      - "traefik.http.routers.traefik-http.middlewares=redirect-to-https@docker"
+      #
+      - "traefik.http.services.traefik-service.loadbalancer.server.port=8080"
+      # 
+      - "traefik.http.routers.traefik-secured.rule=Host(`dashboard.${DOMAIN}`)"
+      - "traefik.http.routers.traefik-secured.entrypoints=websecured"
+      - "traefik.http.routers.traefik-secured.tls.certresolver=myhttpchallenge"
+    networks:
+      - traefik-public

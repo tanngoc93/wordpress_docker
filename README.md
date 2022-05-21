@@ -39,7 +39,7 @@ docker-compose build OR docker-compose build -f custom-filename.yml
 #### Run compose
 
 ```html
-Note: If you want to run separate files, the flow will be : db => proxy+wordpress => phpmyadmin[optional]
+Note: If you want to run separate files, the flow will be : db > proxy > wordpress > phpmyadmin[optional]
 ```
 
 ```html
