@@ -45,7 +45,7 @@ services:
       - "8080:8080" # for local test only
     volumes:
       # So that Traefik can listen to the Docker events
-      - ./traefik/log/:/var/log/traefik
+      - ./traefik/log:/var/log/traefik
       - ./traefik/letsencrypt:/letsencrypt
       -  /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
